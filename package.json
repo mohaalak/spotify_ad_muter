@@ -1,0 +1,15 @@
+{
+  "name": "spotify_node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "spotify-node-applescript": "^1.1.1"
+  }
+}
