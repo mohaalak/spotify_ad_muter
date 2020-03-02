@@ -3,14 +3,14 @@ const spotify = require('spotify-node-applescript');
 let lastTrackName = ""
 function check() {
   function checkIn(time) {
-    console.log("CheckIn", time)
+    console.log("CheckIn", `${time} ms`)
     setTimeout(() => check(), time)
   }
 
   spotify.getTrack(function (err, track) {
     if (err) {
+      console.log("Error on getting Track: ")
       console.log(err)
-      console.log("ERROr khordim to track")
       return
     }
     if (lastTrackName !== track.name) {
@@ -20,13 +20,12 @@ function check() {
       if (track.name === "Advertisement" || track.name === "Spotify") {
         spotify.muteVolume()
       } else {
-        spotify.setVolume(100)
         spotify.unmuteVolume()
       }
     }
     spotify.getState((err, state) => {
       if (err) {
-        console.log('error khordim to stack')
+        console.log('Error on getting State:')
         console.log(err)
         return
       }
