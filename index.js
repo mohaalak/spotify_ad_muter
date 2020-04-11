@@ -1,46 +1,44 @@
-const spotify = require('spotify-node-applescript');
+const spotify = require("spotify-node-applescript");
 
-let lastTrackName = ""
+let lastTrackName = "";
 function check() {
   function checkIn(time) {
-    console.log("CheckIn", `${time} ms`)
-    setTimeout(() => check(), time)
+    console.log("CheckIn", `${time} ms`);
+    setTimeout(() => check(), time);
   }
 
-  spotify.getTrack(function (err, track) {
+  spotify.getTrack(function(err, track) {
     if (err) {
-      console.log("Error on getting Track: ")
-      console.log(err)
-      return
+      console.log("Error on getting Track: ");
+      console.log(err);
+      checkIn(10000);
+      return;
     }
     if (lastTrackName !== track.name) {
       lastTrackName = track.name;
-      console.log(lastTrackName)
+      console.log(lastTrackName);
 
       if (track.name === "Advertisement" || track.name === "Spotify") {
-        spotify.muteVolume()
+        spotify.muteVolume();
       } else {
-        spotify.unmuteVolume()
+        spotify.unmuteVolume();
       }
     }
     spotify.getState((err, state) => {
       if (err) {
-        console.log('Error on getting State:')
-        console.log(err)
-        return
+        console.log("Error on getting State:");
+        console.log(err);
+        return;
       }
 
-
-      if (state.state === 'paused') {
-        console.log("oh stopeed")
-        checkIn(10000)
+      if (state.state === "paused") {
+        console.log("oh stopeed");
+        checkIn(10000);
       } else {
-        checkIn(track.duration - state.position * 1000)
+        checkIn(track.duration - state.position * 1000);
       }
-
-    })
+    });
   });
 }
-
 
 check();
