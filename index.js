@@ -2,7 +2,7 @@ const spotify = require("spotify-node-applescript");
 
 let lastTrackName = "";
 let maxVol = process.argv[2] || 100;
-let currentVol = 0;
+let currentVol = -1;
 function check() {
   function checkIn(time) {
     console.log("CheckIn", `${time} ms`);
@@ -27,7 +27,7 @@ function check() {
       if (track.name === "Advertisement" || track.name === "Spotify") {
         spotify.setVolume(1);
       } else {
-        if (currentVol) {
+        if (currentVol >= 0) {
           spotify.setVolume(currentVol);
         } else {
           spotify.setVolume(maxVol);
