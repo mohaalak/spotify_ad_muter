@@ -2,14 +2,18 @@ const spotify = require("spotify-node-applescript");
 
 let lastTrackName = "";
 let maxVol = process.argv[2] || 100;
-
+let currentVol = 0;
 function check() {
   function checkIn(time) {
     console.log("CheckIn", `${time} ms`);
     setTimeout(() => check(), time);
   }
 
-  spotify.getTrack(function(err, track) {
+  spotify.getState(function (err, state) {
+    currentVol = state.volume
+  });
+
+  spotify.getTrack(function (err, track) {
     if (err) {
       console.log("Error on getting Track: ");
       console.log(err);
@@ -23,7 +27,11 @@ function check() {
       if (track.name === "Advertisement" || track.name === "Spotify") {
         spotify.setVolume(1);
       } else {
-        spotify.setVolume(maxVol);
+        if (currentVol) {
+          spotify.setVolume(currentVol);
+        } else {
+          spotify.setVolume(maxVol);
+        }
       }
     }
     spotify.getState((err, state) => {
