@@ -1,19 +1,21 @@
-This script mute spotify when there is a playing advertisement and only works on MacOS
+# Spotify Ad Muter
+This script mute Spotify when there is a playing advertisement and only works on macOS.
 
-spotify in newer versions will not allow to mute in advertisement, you can't even set the volume to zero, so I set the volume to 1 😁
-then after advertisement it will be on max volume (you can set the max volume in arguments).
+In newer versions, Spotify does not allow users to shut down the advertisements` sound by setting the volume to zero. So, this script is going to set the volume to the minimum value, which is 1.
+Also, after the advertisement, it is going to set the volume on the previous value or a max volume, which you can set it as an environmental variable.
 
-you should have `node.js` and `npm` installed
+## Usage
 
-clone then run
+You should have `Node.js` and `npm` installed.
+
+Clone then run
 `npm install`
 
-then run
-
+Then run the script
 `npm start`
 
-for max volume you can set it this way
-
+For the max volume, you can set it this way
 `npm start 70`
 
-volume can be from 0 to 100
+## Tips
+* Volume can be from 0 to 100
