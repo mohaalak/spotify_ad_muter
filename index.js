@@ -1,7 +1,25 @@
 const spotify = require("spotify-node-applescript");
 
+const volumeForced = !!process.argv[2];
+
 let lastTrackName = "";
 let maxVol = process.argv[2] || 100;
+
+function preserveVolume(act) {
+  if (!volumeForced) {
+    spotify.getState((err, state) => {
+      if (!err) {
+        maxVol = state.volume;
+      }
+  
+      console.log('volume: ' + maxVol);
+      act();
+    });
+  } else {
+    console.log('volume forced to be ' + maxVol);
+    act();
+  }
+}
 
 function check() {
   function checkIn(time) {
@@ -21,7 +39,7 @@ function check() {
       console.log(lastTrackName);
 
       if (track.name === "Advertisement" || track.name === "Spotify") {
-        spotify.setVolume(1);
+        preserveVolume(() => spotify.setVolume(1));
       } else {
         spotify.setVolume(maxVol);
       }
@@ -34,7 +52,7 @@ function check() {
       }
 
       if (state.state === "paused") {
-        console.log("oh stopeed");
+        console.log("paused");
         checkIn(10000);
       } else {
         checkIn(track.duration - state.position * 1000);
@@ -43,4 +61,4 @@ function check() {
   });
 }
 
-check();
+preserveVolume(check);
